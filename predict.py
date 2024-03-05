@@ -1,7 +1,7 @@
 import os
 from cog import BasePredictor, Input, Path
 from typing import List
-import sys
+import sys, shutil
 sys.path.append('/content/TripoSR-hf')
 os.chdir('/content/TripoSR-hf')
 
@@ -48,7 +48,6 @@ def preprocess(input_image, do_remove_background, foreground_ratio):
             image = fill_background(image)
     return image
 
-
 def generate(image, model):
     scene_codes = model(image, device=device)
     mesh = model.extract_mesh(scene_codes)[0]
@@ -70,15 +69,12 @@ class Predictor(BasePredictor):
     def predict(
         self,
         image_path: Path = Input(description="Input Image"),
+        do_remove_background: bool = Input(default=True),
+        foreground_ratio: float = Input(default=0.85, ge=0.5, le=1.0),
     ) -> Path:
         check_input_image(image_path)
-
-        from PIL import Image
         image = Image.open(image_path)
-        processed_image = preprocess(image, True, 0.85)
+        processed_image = preprocess(image, do_remove_background, foreground_ratio)
         output_model = generate(processed_image, self.model)
-    
-        import shutil
         shutil.copyfile(output_model, "/content/output_model.obj")
-        
         return Path("/content/output_model.obj")
