@@ -52,7 +52,7 @@ def generate(image, model):
     scene_codes = model(image, device=device)
     mesh = model.extract_mesh(scene_codes)[0]
     mesh = to_gradio_3d_orientation(mesh)
-    mesh_path = tempfile.NamedTemporaryFile(suffix=".obj", delete=False)
+    mesh_path = tempfile.NamedTemporaryFile(suffix=".glb", delete=False)
     mesh.export(mesh_path.name)
     return mesh_path.name
 
