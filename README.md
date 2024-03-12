@@ -18,4 +18,4 @@ https://www.tripo3d.ai/
 ![Screenshot 2024-03-05 041600](https://github.com/camenduru/TripoSR-replicate/assets/54370274/2ccc9e87-e300-4251-9cc0-9ec97062c103)
 
 ### 🏢 Sponsor
-https://modelslab.com
+https://replicate.com
